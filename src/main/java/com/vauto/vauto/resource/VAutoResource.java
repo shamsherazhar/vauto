@@ -28,7 +28,7 @@ public class VAutoResource {
 	@Autowired
 	DataSetIdService dataSetIdService;
 	
-	@GetMapping("/test")
+	@GetMapping("/submit")
 	public String  convertCurrency() {
 		
 		
@@ -62,7 +62,21 @@ public class VAutoResource {
 	
 	private Map<String,List<Vehicle>> getDealerMapping(List<String> vehicleList,String dataSetId){
 		Map<String,List<Vehicle>> dealerMap=new HashMap<>();
-		for(String vehicleId:vehicleList){
+		/*for(String vehicleId:vehicleList){
+			Vehicle vehicle= vehicleService.getVehicle(dataSetId, vehicleId);
+			if(dealerMap.get(vehicle.getDealerId())==null){
+				List<Vehicle> list=new ArrayList<Vehicle>();
+				list.add(vehicle);
+				dealerMap.put(vehicle.getDealerId(), list);
+				
+			}
+			else	{
+				List<Vehicle> list=dealerMap.get(vehicle.getDealerId());
+				list.add(vehicle);
+				dealerMap.put(vehicle.getDealerId(), list);
+			}
+		}*/
+		vehicleList.parallelStream().forEach(vehicleId->{
 			Vehicle vehicle= vehicleService.getVehicle(dataSetId, vehicleId);
 			if(dealerMap.get(vehicle.getDealerId())==null){
 				List<Vehicle> list=new ArrayList<Vehicle>();
@@ -76,6 +90,9 @@ public class VAutoResource {
 				dealerMap.put(vehicle.getDealerId(), list);
 			}
 		}
+		
+	);
+		
 		return dealerMap;
 	}
 
