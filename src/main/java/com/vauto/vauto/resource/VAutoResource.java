@@ -29,7 +29,7 @@ public class VAutoResource {
 	DataSetIdService dataSetIdService;
 	
 	@GetMapping("/submit")
-	public String  convertCurrency() {
+	public String  answer() {
 		
 		
 	
